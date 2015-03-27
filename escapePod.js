@@ -41,11 +41,6 @@ angular.module('escapePodApp', [])
             });
         };
 
-        //$scope.downloadEpisode = function(url)
-        //{
-        //
-        //}
-
     }]);
 
 
