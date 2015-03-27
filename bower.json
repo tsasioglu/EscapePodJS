@@ -1,0 +1,19 @@
+{
+  "name": "EscapePodJS",
+  "version": "0.0.0",
+  "homepage": "https://github.com/tsasioglu/EscapePodJS",
+  "authors": [
+    "tsasioglu <tsasioglu@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "moment": "~2.9.0"
+  }
+}
