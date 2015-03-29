@@ -20,11 +20,15 @@
         </div>
 
         <div id="podcastInfoBox">
-            <img ng-src="{{imageUrl}}" ng-show="imageUrl" class="ng-hide" align="left"/>
+            <img ng-src="{{imageUrl}}" ng-show="imageUrl" class="ng-hide" id="podcastImage">
 
-            <b><p>{{title}}</p></b>
-            <p>{{description}}</p>
-            <p>{{category}}</p>
+            <div id="podcastInfo">
+                <b>{{title}}</b>
+                <br />
+                {{description}}
+                <br />
+                <div class="bottomAligned">{{category}}</div>
+            </div>
         </div>
 
         <ul>
@@ -47,7 +51,7 @@
 
                         <div class="rightEpisode">
                             <a href="{{episode.url}}" download><button class="button downloadButton">Download</button></a>
-                            <a href="{{episode.url}}"><button class="button streamButton">Stream</button></a>
+                            <a href="{{episode.url}}">         <button class="button streamButton">Play</button></a>
                         </div>
                     </div>
                 </div>

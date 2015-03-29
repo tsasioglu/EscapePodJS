@@ -3,8 +3,8 @@
 }
 
 img {
-    width:  6%;
-    height: 6%;
+    /*width:  6%;*/
+    /*height: 6%;*/
 }
 
 ul
@@ -14,9 +14,25 @@ ul
     margin: 0;
 }
 
+html, body {
+    height: 100%;
+}
+
 #podcastInfoBox {
-    margin: 1px;
-    overflow: auto;
+    position: relative;
+    height: 20vh;
+}
+
+#podcastImage {
+    position: absolute;
+    left: 0px;
+    height: 100%;
+}
+
+#podcastInfo {
+    height: 100%;
+    margin-left: 20vh;
+    padding: 5px;
 }
 
 .oddEpisode {
@@ -48,8 +64,15 @@ ul
 
 .downloadButton {
     background: forestgreen;
+    width: 110px;
 }
 
 .streamButton {
     background: deepskyblue;
+    width: 50px;
+}
+
+.bottomAligned {
+    position: absolute;
+    bottom: 0;
 }
