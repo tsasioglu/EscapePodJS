@@ -42,6 +42,7 @@ angular.module('escapePodApp', [])
             {
                 var xml = $(data.results[0]);
                 populateFromXml(xml);
+                $scope.$digest();
             });
         };
 

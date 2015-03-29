@@ -20,7 +20,7 @@ html, body {
 
 #podcastInfoBox {
     position: relative;
-    height: 20vh;
+    height: 10vh;
 }
 
 #podcastImage {
@@ -31,7 +31,7 @@ html, body {
 
 #podcastInfo {
     height: 100%;
-    margin-left: 20vh;
+    margin-left: 10vh;
     padding: 5px;
 }
 
