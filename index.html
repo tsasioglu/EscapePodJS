@@ -4,8 +4,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-cookies.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-    <script src="https://documentcloud.github.io/underscore/underscore.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
     <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
     <script src="escapePod.js"></script>
     <link rel="stylesheet" href="escapePod.css">
 </head>
@@ -13,56 +14,75 @@
     <h2>Escape Pod</h2>
     <div ng-controller="EscapePodController">
 
-        <div align="center">
-            <form ng-submit="loadRss()">
-                Podcast URL: <input id="urlInput" type="text" ng-model="rssUrl" placeholder="Paste RSS XML here" />
+        <div id="subscriptionPane">
+            <ul ng-cloak>
+                <li ng-repeat="subscription in subscriptions" ng-class-odd="'oddEpisode'" ng-class-even="'evenEpisode'">
+                    <div class="subscription">
+                        <div class="subscriptionInfo">
+                        <b>{{subscription.title}}</b>
+                        <br />
+                            {{subscription.url}}
+                        </div>
 
-                <input class="btn-primary" type="submit" value="Load" />
-            </form>
-            <button ng-click="subscribe()">Subscribe</button>
+                        <div class="deleteCross" ng-click="removeSubscription(subscription.url)">x</div>
 
-
+                    </div>
+                </li>
+            </ul>
         </div>
 
-        <div id="podcastInfoBox" ng-cloak>
-            <img ng-src="{{imageUrl}}" ng-show="imageUrl" class="ng-hide" id="podcastImage">
+        <div id="episodesPane">
 
-            <div id="podcastInfo">
-                <b>{{title}}</b>
-                <br />
-                {{description}}
-                <br />
-                <div>{{category}}</div>
+            <div id="urlBar">
+                <form ng-submit="loadRss()">
+                    Podcast URL: <input id="urlInput" type="text" ng-model="rssUrl" placeholder="Paste RSS XML here" />
+
+                    <input class="btn-primary" type="submit" value="Load" />
+                </form>
+                <button ng-click="subscribe()">Subscribe</button>
+
+
             </div>
-        </div>
 
-        <ul ng-cloak>
-            <li ng-repeat="episode in episodes" ng-class-odd="'oddEpisode'" ng-class-even="'evenEpisode'">
-                <div class="episode">
+            <div id="podcastInfoBox" ng-cloak>
+                <img ng-src="{{imageUrl}}" ng-show="imageUrl" class="ng-hide" id="podcastImage">
 
-                    <div>
-                        <div class="leftEpisode">
-                            <b>{{episode.title}}</b>
-                        </div>
-                        <div class="rightEpisode">
-                            {{episode.date}} {{episode.duration}}
-                        </div>
-                    </div>
-
+                <div id="podcastInfo">
+                    <b>{{title}}</b>
                     <br />
+                    {{description}}
+                    <br />
+                    <div>{{category}}</div>
+                </div>
+            </div>
 
-                    <div>
-                        <div class="leftEpisode">{{episode.description}}</div>
+            <ul ng-cloak>
+                <li ng-repeat="episode in episodes" ng-class-odd="'oddEpisode'" ng-class-even="'evenEpisode'">
+                    <div class="episode">
 
-                        <div class="rightEpisode">
-                            <a href="{{episode.url}}" download><button class="button downloadButton">Download</button></a>
-                            <a href="{{episode.url}}">         <button class="button streamButton">Play</button></a>
+                        <div>
+                            <div class="leftEpisode">
+                                <b>{{episode.title}}</b>
+                            </div>
+                            <div class="rightEpisode">
+                                {{episode.date}} {{episode.duration}}
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <div>
+                            <div class="leftEpisode">{{episode.description}}</div>
+
+                            <div class="rightEpisode">
+                                <a href="{{episode.url}}" download><button class="button downloadButton">Download</button></a>
+                                <a href="{{episode.url}}">         <button class="button streamButton">Play</button></a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </li>
-        </ul>
-
+                </li>
+            </ul>
+        </div>
     </div>
 
     <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>

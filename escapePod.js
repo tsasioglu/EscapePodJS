@@ -1,5 +1,5 @@
-angular.module('escapePodApp', ['ngCookies'])
-    .controller('EscapePodController', ['$scope', '$cookies', function($scope, $cookies)
+angular.module('escapePodApp', ['ngCookies', 'LocalStorageModule'])
+    .controller('EscapePodController', ['$scope', '$cookies', 'localStorageService', function($scope, $cookies, localStorageService)
     {
         var debug = true;
 
@@ -9,14 +9,23 @@ angular.module('escapePodApp', ['ngCookies'])
             populateFromXml($(xml));
         }
 
+        loadSubscriptions();
+
         $scope.loadRss = function()
         {
-            var yql = 'http://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from xml where url="' + $scope.rssUrl + '"') + '&format=xml&callback=?';
+            downloadXml($scope.rssUrl, function(xml) {
+                populateFromXml(xml);
+            });
+        };
+
+        function downloadXml(rssUrl, callback)
+        {
+            var yql = 'http://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from xml where url="' + rssUrl + '"') + '&format=xml&callback=?';
 
             $.getJSON(yql, function (data)
             {
                 var xml = $(data.results[0]);
-                populateFromXml(xml);
+                callback(xml);
                 $scope.$digest();
             });
         };
@@ -36,15 +45,28 @@ angular.module('escapePodApp', ['ngCookies'])
 
             $scope.episodes = $.map(items, function(episode)
             {
-                return {
-                    title       : $(episode).find('title')      .text(),
-                    description : $(episode).find('description').text(),
-                    date        : moment(new Date($(episode).find('pubDate').text())).format('DD MMMM YYYY'),
-                    url         : $(episode).find('enclosure').attr('url'),
-                    duration    : $(episode).find('itunes\\:duration').text()
-                };
+              return parseEpisode(episode)
             });
+        };
+
+        function parseEpisode(episode) {
+            return {
+                title       : $(episode).find('title')      .text(),
+                description : $(episode).find('description').text(),
+                date        : moment(new Date($(episode).find('pubDate').text())).format('DD MMMM YYYY'),
+                url         : $(episode).find('enclosure').attr('url'),
+                duration    : $(episode).find('itunes\\:duration').text()
+            };
         }
+
+        function loadSubscriptions()
+        {
+            var cookies = localStorageService.get('podcasts');
+            $scope.subscriptions = cookies;
+           // $scope.$digest();
+            //var cookies = $cookies['podcasts'];
+            //$scope.subscriptions = cookies;
+        };
 
        $scope.subscribe = function()
        {
@@ -53,19 +75,45 @@ angular.module('escapePodApp', ['ngCookies'])
            if(typeof url == "undefined")
                return;
 
-           var cookies = $cookies['podcasts'];
+            getSubscription(function(subscription) {
 
-           if(typeof cookies == "undefined")
-               cookies = [];
+                var cookies = localStorageService.get('podcasts');
 
-           if(_.contains(cookies, url))
-               return;
+                if(cookies == null)
+                    cookies = [];
 
-           cookies.push(url);
+                if(_.some(cookies, function(cookie) { return cookie.url == url})) {
+                    console.log('Subscription already added');
+                    return;
+                }
 
-           $cookies['podcasts'] = cookies;
-       }
+                cookies.push(subscription);
+                localStorageService.set('podcasts', cookies)
+                loadSubscriptions();
+            });
+       };
 
-    }]);
+        function getSubscription(callback) {
+
+            downloadXml($scope.rssUrl, function(xml) {
+                callback({
+                    title: xml.find('title').first().text(),
+                    url  : $scope.rssUrl
+                });
+
+            });
+        }
+
+        $scope.removeSubscription = function(url)
+        {
+            var cookies = localStorageService.get('podcasts');
+
+            cookies = _.filter(cookies, function(cookie) { return cookie.url != url});
+
+            localStorageService.set('podcasts', cookies)
+        };
+
+
+}]);
 
 
