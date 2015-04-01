@@ -17,14 +17,14 @@
         <div id="subscriptionPane">
             <ul ng-cloak>
                 <li ng-repeat="subscription in subscriptions" ng-class-odd="'oddEpisode'" ng-class-even="'evenEpisode'">
-                    <div class="subscription">
+                    <div class="subscription" ng-click="loadPodcast(subscription.url)" title="Load podcast">
                         <div class="subscriptionInfo">
                         <b>{{subscription.title}}</b>
                         <br />
                             {{subscription.url}}
                         </div>
 
-                        <div class="deleteCross" ng-click="removeSubscription(subscription.url)">x</div>
+                        <div class="deleteCross" title="Remove subscription" ng-click="removeSubscription(subscription.url)">X</div>
 
                     </div>
                 </li>
@@ -37,9 +37,9 @@
                 <form ng-submit="loadRss()">
                     Podcast URL: <input id="urlInput" type="text" ng-model="rssUrl" placeholder="Paste RSS XML here" />
 
-                    <input class="btn-primary" type="submit" value="Load" />
+                    <input class="btn-primary" type="submit" value="Load" title="Load episodes below"/>
                 </form>
-                <button ng-click="subscribe()">Subscribe</button>
+                <button ng-click="subscribe()" title="Remember this podcast for later">Subscribe</button>
 
 
             </div>

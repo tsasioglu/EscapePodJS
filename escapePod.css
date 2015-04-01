@@ -7,6 +7,7 @@ ul
 
 html, body {
     height: 100%;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;;
 }
 
 form {
@@ -21,14 +22,23 @@ form {
 .subscription {
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .subscriptionInfo {
+    margin-right: 50px;
 }
 
 .deleteCross {
     margin-left: auto;
     margin-right: 10px;
+    cursor: pointer;
+}
+
+.deleteCross:hover{
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px;
+    transition: box-shadow 0.3s;
 }
 
 #episodesPane {
