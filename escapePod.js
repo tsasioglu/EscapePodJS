@@ -1,5 +1,7 @@
-angular.module('escapePodApp', ['ngCookies', 'LocalStorageModule'])
-    .controller('EscapePodController', ['$scope', '$cookies', 'localStorageService', function($scope, $cookies, localStorageService) {
+"use strict";
+
+angular.module('escapePodApp', ['LocalStorageModule'])
+    .controller('EscapePodController', ['$scope', 'localStorageService', function($scope, localStorageService) {
         var debug = true;
 
         if(debug) {
