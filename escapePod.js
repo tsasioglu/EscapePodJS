@@ -1,7 +1,7 @@
 "use strict";
 
 var escapePodApp = angular.module('escapePodApp', ['LocalStorageModule'])
-    .controller('EscapePodController', ['$scope', 'localStorageService', 'mockData', function($scope, localStorageService, mockData) {
+    .controller('EscapePodController', ['$scope', '$q', 'localStorageService', 'mockData', function($scope, $q, localStorageService, mockData) {
         var debug = true;
 
         if(debug) {
@@ -16,20 +16,21 @@ var escapePodApp = angular.module('escapePodApp', ['LocalStorageModule'])
         };
 
         $scope.loadPodcast = function(url) {
-            downloadXml(url, function(xml) {
-                populateFromXml(xml);
-            });
+            downloadXml(url).then(function(xml) { populateFromXml(xml)});
         };
 
-        function downloadXml(rssUrl, callback) {
+        function downloadXml(rssUrl) {
             var yql = 'http://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from xml where url="' + rssUrl + '"') + '&format=xml&callback=?';
+            var deferred = $q.defer();
 
             $.getJSON(yql, function (data)
             {
                 var xml = $(data.results[0]);
-                callback(xml);
+                deferred.resolve(xml);
                 $scope.$digest();
             });
+
+            return deferred.promise;
         }
 
         function populateFromXml(xml) {
@@ -70,7 +71,7 @@ var escapePodApp = angular.module('escapePodApp', ['LocalStorageModule'])
            if(typeof url == "undefined")
                return;
 
-            getSubscription(function(subscription) {
+            getSubscription().then(function(subscription) {
 
                 var cookies = localStorageService.get('podcasts');
 
@@ -88,14 +89,18 @@ var escapePodApp = angular.module('escapePodApp', ['LocalStorageModule'])
             });
        };
 
-        function getSubscription(callback) {
+        function getSubscription() {
+            var deferred = $q.defer;
 
-            downloadXml($scope.rssUrl, function(xml) {
-                callback({
+            downloadXml($scope.rssUrl).then(function(xml)
+            {
+                deferred.resolve({
                     title: xml.find('title').first().text(),
                     url  : $scope.rssUrl
                 });
             });
+
+            return deferred.promise;
         }
 
         $scope.removeSubscription = function(url)
@@ -106,7 +111,6 @@ var escapePodApp = angular.module('escapePodApp', ['LocalStorageModule'])
             );
             localStorageService.set('podcasts', cookies)
         };
-
 }]);
 
 
