@@ -1,0 +1,22 @@
+<div class="episode">
+
+    <div>
+        <div class="leftEpisode">
+            <b>{{episode.title}}</b>
+        </div>
+        <div class="rightEpisode">
+            {{episode.date | date:'d MMMM yyyy'}} {{episode.duration}}
+        </div>
+    </div>
+
+    <br />
+
+    <div>
+        <div class="leftEpisode">{{episode.description}}</div>
+
+        <div class="rightEpisode">
+            <a href="{{episode.url}}" download><button class="button downloadButton">Download</button></a>
+            <a href="{{episode.url}}">         <button class="button streamButton">Play</button></a>
+        </div>
+    </div>
+</div>
