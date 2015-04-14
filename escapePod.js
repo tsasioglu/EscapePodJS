@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var escapePodApp = angular.module('escapePodApp', ['LocalStorageModule'])
     .controller('EscapePodController', ['$scope', '$q', 'localStorageService', 'mockData', function($scope, $q, localStorageService, mockData) {
@@ -90,7 +90,7 @@ var escapePodApp = angular.module('escapePodApp', ['LocalStorageModule'])
        };
 
         function getSubscription() {
-            var deferred = $q.defer;
+            var deferred = $q.defer();
 
             downloadXml($scope.rssUrl).then(function(xml)
             {
