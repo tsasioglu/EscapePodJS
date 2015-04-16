@@ -1,20 +1,20 @@
 <div class="episode">
+    
+    <div class="row">
+        <div class="leftEpisode col-md-8">
+            <b>{{episode.title}}</b>
+        </div>
+        <div class="rightEpisode col-md-4 text-right">
+            {{episode.date | date:'d MMMM yyyy'}} {{episode.duration}}
+        </div>
+    </div>
 
-   <div class="row">
-                        <div class="leftEpisode col-md-8">
-                            <b>{{episode.title}}</b>
-                        </div>
-                        <div class="rightEpisode col-md-4 text-right">
-                            {{episode.date | date:'d MMMM yyyy'}} {{episode.duration}}
-                        </div>
-                    </div>
+    <div class="row">
+        <div class="leftEpisode col-md-8">{{episode.description}}</div>
 
-                    <div class="row">
-                        <div class="leftEpisode col-md-8">{{episode.description}}</div>
-
-                        <div class="rightEpisode col-md-4 btn-group text-right">
-                            <a href="{{episode.url}}"><button type="button" class="button downloadButton btn btn-primary">Download <span class="glyphicon glyphicon-download"></span></button></a>
-                            <a href="{{episode.url}}"><button type="button" class="button streamButton btn btn-success">Play <span class="glyphicon glyphicon-play"></span></button></a>
-                        </div>
-                    </div>
+        <div class="rightEpisode col-md-4 btn-group text-right">
+            <a href="{{episode.url}}"><button type="button" class="button downloadButton btn btn-primary">Download <span class="glyphicon glyphicon-download"></span></button></a>
+            <a href="{{episode.url}}"><button type="button" class="button streamButton btn btn-success">Play <span class="glyphicon glyphicon-play"></span></button></a>
+        </div>
+    </div>
 </div>

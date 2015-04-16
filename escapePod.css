@@ -1,0 +1,11 @@
+.subscription {    
+    overflow: hidden;
+}
+
+.evenEpisode {
+    background: lightblue;
+}
+
+.episode {
+    padding: 5px;   
+}

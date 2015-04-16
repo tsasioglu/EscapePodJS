@@ -11,6 +11,7 @@
     <script src="episode.js"></script>
     <link rel="stylesheet" href="bootstrap-yeti-theme.min.css">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="escapePod.css">
 </head>
 <body ng-controller="EscapePodController" >
 
@@ -38,7 +39,7 @@
         <section id="subscriptionPane" class="col-md-3">
             <ul ng-cloak class="list-unstyled">
                 <li ng-repeat="subscription in subscriptions">
-                    <div title="Load podcast">
+                    <div title="Load podcast" class="subscription">
                         <div class="subscriptionInfo">
                         <b>{{subscription.title}}</b>
                         <br />
@@ -55,14 +56,14 @@
             <div id="podcastInfo" class="panel panel-default">
                 <div class="panel-heading">{{title}}</div>
                 <div class="panel-body">
-                    <img ng-src="{{imageUrl}}" ng-show="imageUrl" class="ng-hide col-md-2 col-sm-2" id="podcastImage">
+                    <img ng-src="{{imageUrl}}" ng-show="imageUrl" class="ng-hide col-md-2 img-thumbnail" id="podcastImage">
                     {{description}}
                 </div>
                 <div class="panel-footer">{{category}}</div>
             </div>
         </div>
 
-        <ul ng-cloak class="col-md-9 col-md-offset-3 list-unstyled">
+        <ul ng-cloak class="col-md-9 pull-right list-unstyled">
             <li ng-repeat="episode in episodes" ng-class-odd="'oddEpisode'" ng-class-even="'evenEpisode'">
                 <episode episode="episode"/>                    
             </li>
