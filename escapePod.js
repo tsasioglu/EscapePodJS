@@ -1,7 +1,9 @@
+/// <reference path="typings/jquery/jquery.d.ts"/>
+/// <reference path="typings/angularjs/angular.d.ts"/>
 'use strict';
 
-var escapePodApp = angular.module('escapePodApp', ['LocalStorageModule'])
-    .controller('EscapePodController', ['$scope', '$q', 'localStorageService', 'mockData', function($scope, $q, localStorageService, mockData) {
+var escapePodApp = angular.module('escapePodApp', ['LocalStorageModule'])   
+    .controller('EscapePodController', ['$scope', '$q', 'XmlService', 'localStorageService', 'mockData', function($scope, $q, xmlService, localStorageService, mockData) {
         var debug = true;
 
         if(debug) {
@@ -16,22 +18,11 @@ var escapePodApp = angular.module('escapePodApp', ['LocalStorageModule'])
         };
 
         $scope.loadPodcast = function(url) {
-            downloadXml(url).then(function(xml) { populateFromXml(xml)});
-        };
-
-        function downloadXml(rssUrl) {
-            var yql = 'http://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from xml where url="' + rssUrl + '"') + '&format=xml&callback=?';
-            var deferred = $q.defer();
-
-            $.getJSON(yql, function (data)
-            {
-                var xml = $(data.results[0]);
-                deferred.resolve(xml);
+            xmlService.downloadXml(url).then(function(xml) { 
+                populateFromXml(xml);
                 $scope.$digest();
             });
-
-            return deferred.promise;
-        }
+        };      
 
         function populateFromXml(xml) {
             var items = xml.find('item');
@@ -92,12 +83,13 @@ var escapePodApp = angular.module('escapePodApp', ['LocalStorageModule'])
         function getSubscription() {
             var deferred = $q.defer();
 
-            downloadXml($scope.rssUrl).then(function(xml)
+            xmlService.downloadXml($scope.rssUrl).then(function(xml)
             {
                 deferred.resolve({
                     title: xml.find('title').first().text(),
                     url  : $scope.rssUrl
                 });
+                $scope.$digest();
             });
 
             return deferred.promise;
