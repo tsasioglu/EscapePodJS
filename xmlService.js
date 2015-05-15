@@ -1,6 +1,6 @@
 /// <reference path="typings/angularjs/angular.d.ts"/>
  angular.module('escapePodApp')
-    .factory('XmlService', ["$q", function($q) {
+    .factory('XmlService', ['$q', function($q) {
         
         var downloadXml = function(url) {
             var yql = 'http://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from xml where url="' + url + '"') + '&format=xml&callback=?';
