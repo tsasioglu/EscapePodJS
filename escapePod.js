@@ -38,7 +38,7 @@ var escapePodApp = angular.module('escapePodApp', ['LocalStorageModule'])
 
             $scope.episodes = $.map(items, function(episode)
             {
-              return parseEpisode(episode)
+              return parseEpisode(episode);
             });
         }
 
